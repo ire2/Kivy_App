@@ -1,0 +1,25 @@
+#:import dp kivy.metrics.dp
+<HelpScreen>:
+    name: "help"
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(20)
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            Label:
+                text: 'Use the joystick or buttons to set direction.\n\nSlide the bar (2–10 mph) for your desired speed.\n\nMost hoverboards go between 2 mph (slow) and 10 mph (fast).'
+                halign: "center"
+                valign: "middle"
+                text_size: self.width, None
+                size_hint_y: None
+                height: self.texture_size[1]
+
+        Button:
+            text: "Back"
+            size_hint_y: None
+            height: dp(50)
+            on_release: app.root.current = "main"

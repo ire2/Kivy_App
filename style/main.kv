@@ -1,0 +1,121 @@
+#:import dp kivy.metrics.dp
+
+ScreenManager:
+    MainScreen:
+    HelpScreen:
+
+<MainScreen>:
+    name: "main"
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(20)
+
+        Label:
+            text: root.direction_text
+            font_size: "20sp"
+            size_hint_y: None
+            height: dp(30)
+
+        JoystickWidget:
+            id: joy
+            size_hint: None, None
+            size: dp(200), dp(200)
+            pos_hint: {'center_x': 0.5}
+            on_x_norm: app.on_joy(self.x_norm, self.y_norm)
+            on_y_norm: app.on_joy(self.x_norm, self.y_norm)
+            canvas:
+                Color:
+                    rgba: 0.9, 0.9, 0.9, 1
+                Ellipse:
+                    pos: self.pos
+                    size: self.size
+                Color:
+                    rgba: 0.2, 0.6, 0.8, 1
+                Ellipse:
+                    pos: self.knob_pos
+                    size: self.knob_size
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(50)
+            spacing: dp(10)
+
+            Button:
+                text: "Forward"
+                on_release:
+                    joy.y_norm = 1
+                    app.on_joy(joy.x_norm, joy.y_norm)
+
+            Button:
+                text: "Stop"
+                on_release:
+                    joy.x_norm = 0; joy.y_norm = 0
+                    app.on_joy(0, 0)
+
+            Button:
+                text: "Backward"
+                on_release:
+                    joy.y_norm = -1
+                    app.on_joy(joy.x_norm, joy.y_norm)
+
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            height: dp(80)
+            spacing: dp(10)
+
+            Label:
+                text: "Speed:"
+                size_hint_x: None
+                width: dp(60)
+
+            Slider:
+                id: slider
+                min: 2
+                max: 10
+                value: root.speed
+                on_value: app.on_speed(self.value)
+
+            Label:
+                text: root.speed_text
+                size_hint_x: None
+                width: dp(100)
+
+            ToggleButton:
+                text: "Full Throttle"
+                size_hint_x: None
+                width: dp(120)
+                # bind to the property on MainScreen, not App
+                on_state: root.full_throttle = (self.state == 'down')
+
+        Button:
+            text: "Help / Instructions"
+            size_hint_y: None
+            height: dp(50)
+            on_release: root.manager.current = "help"
+
+<HelpScreen>:
+    name: "help"
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(20)
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            Label:
+                text: "Use the on-screen joystick or buttons\n to set direction.\n\n Slide the speed bar (2–10 mph) for desired speed.\n\n Typical hoverboard speeds range from\n 2 mph (slow) to 10 mph (fast)."
+                halign: "center"
+                valign: "middle"
+                text_size: self.width, None
+                size_hint_y: None
+                height: self.texture_size[1]
+
+        Button:
+            text: "Back"
+            size_hint_y: None
+            height: dp(50)
+            on_release: root.manager.current = "main"
