@@ -2,14 +2,14 @@
 __pycache__/
 *.py[cod]
 
-# Environments
-kivy_venv/
+# Virtual environments
 venv/
+kivy_venv/
 .env/
 
 # Kivy-deps build folder
 kivy-deps-build/
 
-# Editor / OS junk
-*.swp
+# macOS / editor cruft
 .DS_Store
+*.swp
