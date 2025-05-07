@@ -1,0 +1,15 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Environments
+kivy_venv/
+venv/
+.env/
+
+# Kivy-deps build folder
+kivy-deps-build/
+
+# Editor / OS junk
+*.swp
+.DS_Store
